@@ -1,0 +1,12 @@
+.custom-modal .modal-content {
+    background: rgba(0, 0, 0, 0.9); /* Semi-transparent black background */
+  }
+  
+  .custom-modal .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+  }
+  
+  .custom-modal .modal-body {
+    background: white; /* Change the background of the modal body if needed */
+  }
