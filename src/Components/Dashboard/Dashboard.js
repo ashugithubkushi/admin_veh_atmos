@@ -26,6 +26,8 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import Addvehicles from './Addvehicles/Addvehicles';
 import Users from './Users/Users';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
@@ -114,6 +116,7 @@ export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -125,6 +128,11 @@ export default function MiniDrawer() {
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    window.location.href = '/';
   };
 
   return (
@@ -142,14 +150,16 @@ export default function MiniDrawer() {
               ...(open && { display: 'none' }),
             }}
           >
-            <MenuIcon sx={{
-              marginLeft: 1,
-            }}
-            />
+            <MenuIcon sx={{ marginLeft: 1 }} />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Admin Dashboard
           </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          {/* Logout Button */}
+          <IconButton color="inherit" onClick={handleLogout}>
+            <ExitToAppIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

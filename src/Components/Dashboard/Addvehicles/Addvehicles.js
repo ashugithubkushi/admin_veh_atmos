@@ -107,7 +107,7 @@ const Addvehicles = () => {
   const handleUpdate = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      axios.put(`http://localhost:3000/updateVehicle/${editVehicleId}`, { vehicleName, vehicleNum, contactNum })
+      axios.put(`http://localhost:3000/updateVehicles/${editVehicleId}`, { vehicleName, vehicleNum, contactNum })
         .then(result => {
           console.log(result);
           const updatedIndex = vehicles.findIndex(v => v._id === editVehicleId);
