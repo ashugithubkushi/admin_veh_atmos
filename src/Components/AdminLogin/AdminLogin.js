@@ -225,6 +225,7 @@ export default function AdminLogin() {
     e.preventDefault();
     setPasswordError("");
     setEmailError("");
+    navigate("/dashboard");
 
     if (isLogin) {
       if (validateLogin()) {
@@ -238,7 +239,7 @@ export default function AdminLogin() {
             }
           );
           console.log(response.data);
-          navigate("/dashboard");
+         
         } catch (error) {
           console.error(error);
           setLoginError("Login failed. Please try again.");
