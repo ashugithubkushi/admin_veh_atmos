@@ -150,7 +150,7 @@ export default function MiniDrawer() {
               ...(open && { display: 'none' }),
             }}
           >
-            <MenuIcon sx={{ marginLeft: 1 }} />
+            <MenuIcon sx={{ marginLeft: 0 }} />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
             Admin Dashboard
