@@ -138,7 +138,7 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: '#c59e9e' }}>
+      <AppBar position="fixed" open={open} sx={{backdropFilter: "blur(10px)", backgroundColor: "rgba(155, 155, 155, 0.3)" , color: 'black' }}>
         <Toolbar>
           <IconButton
             color="inherit"

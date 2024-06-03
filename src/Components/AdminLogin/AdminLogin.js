@@ -116,8 +116,122 @@
 // }
 
 
+// import { useState } from "react";
+// import "./adminlogin.css"; // Import CSS file with styles for the first component
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
+
+// function AdminLogin() {
+//   const navigate = useNavigate();
+
+//   const [username, setUsername] = useState("");
+//   const [usernameError, setUsernameError] = useState("");
+
+//   const [password, setPassword] = useState("");
+//   const [passwordError, setPasswordError] = useState("");
+
+//   const [loginError, setLoginError] = useState("");
+
+//   const validateUsername = (username) => {
+//     const regex = /^[a-zA-Z0-9]+$/;
+//     return regex.test(username);
+//   };
+
+//   const validatePassword = (password) => {
+//     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+//     return regex.test(password);
+//   };
+
+//   const handleUsernameChange = (e) => {
+//     setUsername(e.target.value);
+//     setUsernameError("");
+//   };
+
+//   const handlePasswordChange = (e) => {
+//     setPassword(e.target.value);
+//     setPasswordError("");
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     setPasswordError("");
+//     setLoginError("");
+
+//     if (!validateUsername(username)) {
+//       setUsernameError("Username is required");
+//       return;
+//     }
+
+//     if (!validatePassword(password)) {
+//       setPasswordError(
+//         "Password must be at least 8 characters long, including at least one uppercase letter, one lowercase letter, and one number"
+//       );
+//       return;
+//     }
+
+//     axios
+//       .post("http://localhost:3000/createAdminlogin", {
+//         username,
+//         password,
+//       })
+//       .then((response) => {
+//         console.log(response.data);
+//         navigate("/dashboard");
+//       })
+//       .catch((error) => {
+//         console.error(error);
+//         setLoginError("Login failed. Please try again.");
+//       });
+
+//     setUsername("");
+//     setPassword("");
+//   };
+
+//   return (
+//     <div className="form">
+//       <div className="login-wrapper">
+//         <div className="login-box">
+//           <form onSubmit={handleSubmit} className="login-form">
+//             <h2 className="center-heading">Login</h2>
+
+//             <div className="form-group">
+//               <input
+//                 type="text"
+//                 value={username}
+//                 onChange={handleUsernameChange}
+//                 className="input-field"
+//                 style={{ marginBottom: '10px' }}
+//               />
+//               {/* <label className="input-label">Username</label> */}
+//               {usernameError && <div className="error">{usernameError}</div>}
+//             </div>
+
+//             <div className="form-group">
+//               <input
+//                 type="password"
+//                 value={password}
+//                 onChange={handlePasswordChange}
+//                 className="input-field"
+//                 style={{ marginBottom: '10px' }}
+//               />
+//               {/* <label className="input-label">Password</label> */}
+//               {passwordError && <div className="error">{passwordError}</div>}
+//             </div>
+
+//             <button type="submit" className="colorful-button" style={{ marginBottom: '10px' }}>
+//               Login
+//             </button>
+//             <div className="error">{loginError}</div>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default AdminLogin;
 import { useState } from "react";
-import "./adminlogin.css"; // Import CSS file with styles for the first component
+import "./adminlogin.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -176,7 +290,8 @@ function AdminLogin() {
       })
       .then((response) => {
         console.log(response.data);
-        navigate("/dashboard");
+        const { username } = response.data;
+        navigate("/dashboard", { state: { username } }); 
       })
       .catch((error) => {
         console.error(error);
@@ -202,7 +317,6 @@ function AdminLogin() {
                 className="input-field"
                 style={{ marginBottom: '10px' }}
               />
-              {/* <label className="input-label">Username</label> */}
               {usernameError && <div className="error">{usernameError}</div>}
             </div>
 
@@ -214,7 +328,6 @@ function AdminLogin() {
                 className="input-field"
                 style={{ marginBottom: '10px' }}
               />
-              {/* <label className="input-label">Password</label> */}
               {passwordError && <div className="error">{passwordError}</div>}
             </div>
 
@@ -230,6 +343,8 @@ function AdminLogin() {
 }
 
 export default AdminLogin;
+
+
 
 
 
