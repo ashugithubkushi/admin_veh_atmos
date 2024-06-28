@@ -1,151 +1,51 @@
-
-// www.youtube.com/watch?v=Ejg7es3ba2k
-
-// import React, { useEffect, useState } from 'react';
-// import './users.css';
-// import axios from 'axios';
-// import { useNavigate, useParams } from 'react-router-dom';
-// import { Button, Modal, ModalBody, Tooltip } from 'reactstrap';
-
-// const Users = () => {
-//   const [username, setUsername] = useState('');
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [designation, setDesignation] = useState('');
-//   const [contact, setContact] = useState('');
-//   const [errors, setErrors] = useState({});
-//   const [user, setUser] = useState([]);
-//   const [showModal, setShowModal] = useState(false);
-//   const [editUserId, setEditUserId] = useState(null);
-
-//   const { id } = useParams();
-
-//   useEffect(() => {
-//     axios.get("http://localhost:3000/createusers")
-//       .then(response => {
-//         setUser(response.data); 
-//       })
-//       .catch(error => {
-//         console.error('Error fetching user data:', error);
-//       });
-//   }, []);
-
-//   useEffect(() => {
-//     if (editUserId) {
-//       axios.get(`http://localhost:3000/getCreateuser/${editUserId}`)
-//         .then(result => {
-//           const userData = result.data;
-//           setUsername(userData.username);
-//           setEmail(userData.email);
-//           setPassword(userData.password);
-//           setDesignation(userData.designation);
-//           setContact(userData.contact);
-//         })
-//         .catch(err => console.log(err));
-//     }
-//   }, [editUserId]);
-
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     // Handle input change...
-//   };
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     if (validateForm()) {
-//       axios.put(`http://localhost:3000/updateCreateuser/${id}`, {
-//         username,
-//         email,
-//         password,
-//         designation,
-//         contact
-//       })
-//         .then(result => {
-//           console.log(result);
-//           // Reset form or perform any other action upon successful update
-//           toggleModal();
-//         })
-//         .catch(err => console.log(err));
-//     }
-//   };
-
-//   const toggleModal = () => {
-//     setShowModal(!showModal);
-//   };
-
-//   const toggleEditModal = (id) => {
-//     setEditUserId(id);
-//     setShowModal(true);
-//   };
-
-//   return (
-//     <div className="position-relative vh-100">
-//       <Modal isOpen={showModal} toggle={toggleModal} centered={true}>
-//         <ModalBody>
-//           <form onSubmit={handleSubmit}>
-//             {/* Your form fields here */}
-//           </form>
-//         </ModalBody>
-//       </Modal>
-
-//       <div className="position-absolute top-0 end-0 p-3">
-//         <button className="btn btn-success float-end" onClick={() => toggleEditModal(id)}>Edit</button>
-//       </div>
-
-//       {/* User list table */}
-//       <div className="d-flex h-100">
-//         <div className="w-100 bg-white">
-//           <table className="table table-bordered">
-//             <thead>
-//               <tr>
-//                 <th>User Name</th>
-//                 <th>Email Id</th>
-//                 <th>Password</th>
-//                 <th>Designation</th>
-//                 <th>Contact</th>
-//                 <th>Action</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {user.map(userData => (
-//                 <tr key={userData._id}>
-//                   <td>{userData.username}</td>
-//                   <td>{userData.email}</td>
-//                   <td>{userData.password}</td>
-//                   <td>{userData.designation}</td>
-//                   <td>{userData.contact}</td>
-//                   <td>
-//                     <button className='btn btn-success m-1' onClick={() => toggleEditModal(userData._id)}>Edit</button>
-//                     <button className="btn btn-danger delete-button">Delete</button>
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Users;
+app.get('/vehicles/counts', (req, res) => {
+   VehicleModel.aggregate([
+       {
+           $group: {
+               _id: '$vehicleName',
+               count: { $sum: 1 } // Count occurrences of each vehicleName
+           }
+       }
+   ])
+   .then(vehicleCounts => {
+       const countsMap = {};
+       vehicleCounts.forEach(item => {
+           countsMap[item._id] = item.count;
+       });
+       res.json(countsMap);
+   })
+   .catch(err => res.status(500).json({ error: err.message }));
+ });
 
 
 
- // const handleSubmit = (e) => {
-    //   e.preventDefault();
-    //   if (validateForm()) {
-    //     axios.put(`http://localhost:3000/updateCreateuser/${id}`, {
-    //       username,
-    //       email,
-    //       password,
-    //       designation,
-    //       contact
-    //     })
-    //       .then(result => {
-    //         console.log(result);
-    //         toggleModal();
-    //       })
-    //       .catch(err => console.log(err));
-    //   }
-    // };
+
+
+
+ const [totalusers, setTotalusers] = useState(0);
+
+ useEffect(() => {
+   axios
+     .get("http://localhost:3000/getTotalCreateusersCount")
+     .then((res) => {
+       setTotalusers(res.data.totalusers);
+     })
+     .catch((err) => {
+       console.error("Error fetching total slot count:", err);
+     });
+ }, []);
+
+
+
+
+
+ <div>
+ <h2>Vehicle Counts:</h2>
+ <ul>
+     {Object.keys(vehicleCounts).map(vehicleName => (
+         <li key={vehicleName}>
+             {vehicleName}: {vehicleCounts[vehicleName]}
+         </li>
+     ))}
+ </ul>
+</div>

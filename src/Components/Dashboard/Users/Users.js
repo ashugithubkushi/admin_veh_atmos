@@ -3,6 +3,7 @@ import './users.css'
 import axios from 'axios';
   import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Tooltip} from 'reactstrap';
+import { Box } from '@mui/material';
 
 const Users = () => {
   const [username, setUsername] = useState('');
@@ -155,20 +156,21 @@ const handleUpdate = (e) => {
 };
 
 
-//delete
 const deleteUser = (userId) => {
   axios.delete(`http://localhost:3000/deleteCreateuser/${userId}`)
     .then(result => {
-      console.log(result);
-      const updatedUsers = user.filter(u => u._id !== userId);
-      setUser(updatedUsers);
+      console.log(result.data); // Log successful response
+      // Handle success as needed
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.error('Delete user error:', err); // Log error for debugging
+      // Handle error and provide user feedback
+    });
 };
 
 
   return (
-    <div className="position-relative vh-100">
+    <div className="">
 
 <Modal isOpen={showModal} toggle={toggleModal} centered={true}>
         <ModalBody>
@@ -269,13 +271,19 @@ const deleteUser = (userId) => {
         {/* </ModalFooter> */}
       </Modal>
 
-  <div className="position-absolute top-0 end-0 p-3">
-    <button to="/createuser" className="btn btn-success float-end" onClick={toggleModal}>Add +</button>
-  </div>
-  <br /> <br /> <br />
-  <div className="d-flex h-100">
-        <div className="w-100 bg-white">
-          <table className="table table-bordered">
+      <Box sx={{ width: '100%', p:2 , height: '100vh', mt:1, borderRadius:5}}>
+<div className="table-container1">
+
+<div className="table-container">
+
+    <div className="name-with-button-container">
+    <button className="btn btn-success float-end" onClick={toggleModal}>
+          Add +
+        </button>
+ <span className="name"><h5><b>User Data</b></h5></span>
+        </div>
+
+      <table className="table-no-border ">
             <thead>
               <tr>
                 <th>User Name</th>
@@ -357,6 +365,7 @@ const deleteUser = (userId) => {
       </Modal>
     </div>
   </div>
+  </Box>
 </div>
   );
 }
